@@ -1,6 +1,20 @@
 version: "4"
 
 services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: server:1
+    container_name: music-player-server
+    restart: always
+    ports:
+      - "${SERVER_PORT}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+
   postgres:
     image: postgres:16.1-alpine
     container_name: music-player-db
