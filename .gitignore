@@ -1,0 +1,7 @@
+# configuration
+.env.dev
+.env.production
+config/config.yml
+
+# data
+data
