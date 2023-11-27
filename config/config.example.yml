@@ -1,0 +1,7 @@
+Server:
+  Port: 8080
+DB:
+  User: example
+  Pwd: example
+  DB: example
+  Port: 5432

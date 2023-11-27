@@ -5,3 +5,7 @@ config/config.yml
 
 # data
 data
+
+# ide
+.idea
+.vscode
