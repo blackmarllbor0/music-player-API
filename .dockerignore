@@ -1,0 +1,9 @@
+Makefile
+.env.example
+.idea
+.vscode
+.git
+.gitignore
+.dockerignore
+.README
+data

@@ -17,7 +17,6 @@ create table if not exists authors
   is_deleted boolean default false,
   create_at timestamp default current_timestamp,
   update_at timestamp
-  -- default on update current_timestamp
 );
 
 create table if not exists genres
@@ -34,7 +33,7 @@ create table if not exists albums
   id serial primary key,
   album_name varchar(100) not null,
   author_id integer not null,
-  release_year year,
+  release_year date,
   is_deleted boolean default false,
   create_at timestamp default current_timestamp,
   update_at timestamp
@@ -52,7 +51,6 @@ create table if not exists tracks
   release_date date,
   create_at timestamp default current_timestamp,
   update_at timestamp,
-  -- default on update current_timestamp
 
   foreign key (author_id) references authors(id),
   foreign key (genre_id) references genres(id),
@@ -65,6 +63,5 @@ create table if not exists collections
   collection_name varchar(50) not null,
   is_deleted boolean default false,
   create_at timestamp default current_timestamp,
-  update_at timestamp,
-  -- default on update current_timestamp
+  update_at timestamp
 );

@@ -1,20 +1,6 @@
-version: "4"
+version: "3"
 
 services:
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: server:1
-    container_name: music-player-server
-    restart: always
-    ports:
-      - "${SERVER_PORT}:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-        restart: true
-
   postgres:
     image: postgres:16.1-alpine
     container_name: music-player-db
@@ -27,16 +13,58 @@ services:
 
     ports:
       - "${POSTGRES_PORT}:5432"
+
     volumes:
       - "./data/postgres:/data/postgres"
+    
+    networks:
+      music-player:
+        aliases:
+          - ${POSTGRES_HOST}
+
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "pg_isready",
+        "-U",
+        "${POSTGRES_USER}",
+        "-d",
+        "${POSTGRES_DB}"
+      ]
+      interval: 15s
+      timeout: 15s
+      retries: 3
+
+  postgres-migrate:
+    image: migrate/migrate:v4.15.2
+    container_name: music-player-db-migrate
+    restart: on-failure
+
+    volumes:
+      - ./migrations:/migrations
+
     networks:
       - music-player
 
-    healthcheck:
-      test: ["CMD-SHELL", "pq_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    profiles:
+      - tools
+    
+    entrypoint: [
+      "migrate",
+      "-database",
+      "${POSTGRES_CONN_STRING}",
+      "-path",
+      "/migrations"
+    ]
+
+    command: ["up"]
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    links:
+      - postgres
 
 volumes:
   postgres:
