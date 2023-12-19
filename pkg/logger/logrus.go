@@ -20,10 +20,8 @@ func NewLogrusLogger() Logger {
 func (l LogrusLogger) SetupLogger(logDir string) (*os.File, error) {
 	l.SetLevel(logrus.InfoLevel)
 
-	l.SetFormatter(&logrus.TextFormatter{
+	l.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat:  "2006-01-02 15:04:05",
-		FullTimestamp:    true,
-		DisableColors:    false,
 		DisableTimestamp: false,
 	})
 

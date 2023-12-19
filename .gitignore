@@ -1,7 +1,7 @@
 # configuration
 .env.dev
 .env.production
-config/config.yml
+config.yml
 
 # data
 data
@@ -9,3 +9,5 @@ data
 # ide
 .idea
 .vscode
+
+logs/

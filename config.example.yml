@@ -1,0 +1,4 @@
+Server:
+  Port: 8080
+DB:
+  ConnString: postgres://username:pwd@host:port/db
